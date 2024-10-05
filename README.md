@@ -11,4 +11,4 @@ I've also included a comprehensive list of foliage blocks (`foliageTable.txt`) t
 This brush allows you to paint layered terrain similar to painting normal terrain using the Noise Painter. 
 
 ## Installation
-To use the brush, copy the contents of the `.lua` file directly into the Lua Script Brush Console within the Axiom Mod. Alternativley, you can place the `.nbt` file in the `script_brush` folder located at: `...\config\axiom\tool_presets\script_brush` (where `...` is your Minecraft instance folder) and restart Minecraft.
+To use the brush, copy the contents of the `.lua` files directly into the Lua Script Brush Console within the Axiom Mod. Alternativley, you can place the `.nbt` files in the `script_brush` folder located at: `...\config\axiom\tool_presets\script_brush` (where `...` is your Minecraft instance folder) and restart Minecraft.
