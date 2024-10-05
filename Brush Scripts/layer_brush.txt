@@ -1,0 +1,203 @@
+--------------------------------------------------------------------
+-------------------- HOW TO USE THE BRUSH --------------------
+--------------------------------------------------------------------
+
+-- This brush allows you to paint layered terrain similar to
+-- painting normal terrain using the Noise Painter. To use this 
+-- brush, set the blocks and corresponding layers for the palette 
+-- you’d like to use. This is done right below, where the default 
+-- palette is colored wool. Make sure to check the correct block 
+-- IDs for the blocks you want to use. 
+
+------------------ SET BLOCK PALETTE HERE ------------------
+
+local block1 = blocks.red_wool
+local block2 = blocks.purple_wool
+local block3 = blocks.blue_wool
+local block4 = blocks.green_wool
+local block5 = blocks.yellow_wool
+local block6 = blocks.orange_wool
+local block7 = blocks.black_wool
+local block8 = blocks.white_wool
+local block9 = blocks.gray_wool
+
+local layer1 = blocks.conquest.red_wool_slab
+local layer2 = blocks.conquest.purple_wool_slab
+local layer3 = blocks.conquest.blue_wool_slab
+local layer4 = blocks.conquest.green_wool_slab
+local layer5 = blocks.conquest.yellow_wool_slab
+local layer6 = blocks.conquest.orange_wool_slab
+local layer7 = blocks.conquest.black_wool_slab
+local layer8 = blocks.conquest.white_wool_slab
+local layer9 = blocks.conquest.gray_wool_slab
+
+--------------------------------------------------------------------
+
+-- If the block ID is in the form "minecraft:blockname" (e.g., 
+-- "minecraft:red_wool"), you must enter it as "blocks.blockname" 
+-- (e.g., "blocks.red_wool"). If the block ID is in the form 
+-- "conquest:blockname" (e.g., "conquest:mossy_soil"), you must 
+-- enter it as "blocks.conquest.blockname" (e.g., 
+-- "blocks.conquest.mossy_soil"). 
+-- 
+-- Currently, you can use up to 9 different blocks (block1-block9) 
+-- with corresponding layers (layer1-layer9) in your palette. If 
+-- you want to use fewer, simply set the amount of the unwanted 
+-- blocks to 0 (in the interface of the brush).
+-- 
+-- If the sum of Block1 Amount - Block9 Amount is less than one, 
+-- the remaining area will be left unaltered by the brush. If the 
+-- sum is more than one, the amounts will be normalized to maintain 
+-- their relative proportions.
+-- 
+-- Additionally, the noise size controls the size of the noise grid 
+-- used for block placement, while the Random Factor controls the 
+-- number of blocks selected randomly from the palette based on 
+-- their set amounts. So setting the Random Factor to 1 will result 
+-- in a fully randomized noise pattern.
+
+------------------------ End of explanation ------------------------
+
+
+local block1_amount = $float(Block1 Amount,0.5,0,1)$
+local block2_amount = $float(Block2 Amount,0.5,0,1)$
+local block3_amount = $float(Block3 Amount,0.5,0,1)$
+local block4_amount = $float(Block4 Amount,0.5,0,1)$
+local block5_amount = $float(Block5 Amount,0.5,0,1)$
+local block6_amount = $float(Block6 Amount,0.5,0,1)$
+local block7_amount = $float(Block7 Amount,0.5,0,1)$
+local block8_amount = $float(Block8 Amount,0.5,0,1)$
+local block9_amount = $float(Block9 Amount,0.5,0,1)$
+
+
+local noise_size = $int(Noise Size,6,1,20)$
+local noise = getSimplexNoise(x/noise_size, y/noise_size, z/noise_size)
+
+local randomness_factor = $float(Random Factor,0.1,0,1)$
+
+-- Only select blocks which are on the surface
+if getBlock(x,y,z) == blocks.air or getBlock(x,y+1,z) ~= blocks.air then
+	return nil
+end
+
+
+-- Function to replace an existing layered block at coordinates 
+-- a, b, c with the correct layered block given by the argument "layer"
+function setLayer(a, b, c, layer)
+    if getBlockState(x, y, z) == withBlockProperty(getBlock(x, y, z), "layers=8") then
+        local block = withBlockProperty(layer, "layers=8")
+        setBlock(a, b, c, block)
+    elseif getBlockState(x, y, z) == withBlockProperty(getBlock(x, y, z), "layers=1") then
+        local block = withBlockProperty(layer, "layers=1")
+        setBlock(a, b, c, block)
+    elseif getBlockState(x, y, z) == withBlockProperty(getBlock(x, y, z), "layers=2") then
+        local block = withBlockProperty(layer, "layers=2")
+        setBlock(a, b, c, block)
+    elseif getBlockState(x, y, z) == withBlockProperty(getBlock(x, y, z), "layers=3") then
+        local block = withBlockProperty(layer, "layers=3")
+        setBlock(a, b, c, block)
+    elseif getBlockState(x, y, z) == withBlockProperty(getBlock(x, y, z), "layers=4") then
+        local block = withBlockProperty(layer, "layers=4")
+        setBlock(a, b, c, block)
+    elseif getBlockState(x, y, z) == withBlockProperty(getBlock(x, y, z), "layers=5") then
+        local block = withBlockProperty(layer, "layers=5")
+        setBlock(a, b, c, block)
+    elseif getBlockState(x, y, z) == withBlockProperty(getBlock(x, y, z), "layers=6") then
+        local block = withBlockProperty(layer, "layers=6")
+        setBlock(a, b, c, block)
+    elseif getBlockState(x, y, z) == withBlockProperty(getBlock(x, y, z), "layers=7") then
+        local block = withBlockProperty(layer, "layers=7")
+        setBlock(a, b, c, block)
+    else
+        return nil
+    end
+end
+
+
+-- Checks if the Block at coordinates a,b,c has the "layers" property
+function isLayeredBlock(a,b,c)
+	return getBlockProperty(getBlock(a,b,c),"layers") ~= nil
+end
+
+
+-- This function is used to place the blocks, replacing 
+-- the surface block and the first 3 blocks below it with the 
+-- same block type (checking if the surface block is layered)
+function go(a,b,c,block,layer)
+	setBlock(a,b-1,c, block)
+	setBlock(a,b-2,c, block)
+	setBlock(a,b-3,c, block)
+	if isLayeredBlock(a,b,c) then
+		setLayer(a,b,c,layer)
+	else
+		setBlock(a,b,c,block)
+	end
+end
+
+
+-- Normalize the amounts if their sum exceeds one so they add to one
+local sum = block1_amount + block2_amount + block3_amount + block4_amount + block5_amount + block6_amount + block7_amount + block8_amount + block9_amount
+
+if sum > 1 then
+    block1_amount = block1_amount / sum
+    block2_amount = block2_amount / sum
+    block3_amount = block3_amount / sum
+    block4_amount = block4_amount / sum
+    block5_amount = block5_amount / sum
+    block6_amount = block6_amount / sum
+    block7_amount = block7_amount / sum
+    block8_amount = block8_amount / sum
+    block9_amount = block9_amount / sum
+end
+
+
+-- This piece of code then places the actual blocks. The first 
+-- chunk handles the randomly placed blocks, while the second 
+-- chunk handles the blocks placed according to the noise pattern.
+if math.random() < randomness_factor then
+	local random = math.random()
+	if random < block1_amount then
+		go(x,y,z,block1,layer1)
+	elseif random < block1_amount + block2_amount then
+		go(x,y,z,block2,layer2)
+	elseif random < block1_amount + block2_amount + block3_amount then
+		go(x,y,z,block3,layer3)
+	elseif random < block1_amount + block2_amount + block3_amount + block4_amount then
+		go(x,y,z,block4,layer4)
+	elseif random < block1_amount + block2_amount + block3_amount + block4_amount + block5_amount then
+		go(x,y,z,block5,layer5)
+	elseif random < block1_amount + block2_amount + block3_amount + block4_amount + block5_amount + block6_amount then
+		go(x,y,z,block6,layer6)
+	elseif random < block1_amount + block2_amount + block3_amount + block4_amount + block5_amount + block6_amount + block7_amount then
+		go(x,y,z,block7,layer7)
+	elseif random < block1_amount + block2_amount + block3_amount + block4_amount + block5_amount + block6_amount + block7_amount + block8_amount then
+		go(x,y,z,block8,layer8)
+	elseif random < block1_amount + block2_amount + block3_amount + block4_amount + block5_amount + block6_amount + block7_amount + block8_amount + block9_amount then
+		go(x,y,z,block9,layer9)
+	else
+		return nil
+	end
+else
+	if block1_amount > noise then
+		go(x,y,z,block1,layer1)
+	elseif block1_amount + block2_amount > noise then
+		go(x,y,z,block2,layer2)
+	elseif block1_amount + block2_amount + block3_amount > noise then
+		go(x,y,z,block3,layer3)
+	elseif block1_amount + block2_amount + block3_amount + block4_amount > noise then
+		go(x,y,z,block4,layer4)
+	elseif block1_amount + block2_amount + block3_amount + block4_amount + block5_amount > noise then
+		go(x,y,z,block5,layer5)
+	elseif block1_amount + block2_amount + block3_amount + block4_amount + block5_amount + block6_amount > noise then
+		go(x,y,z,block6,layer6)
+	elseif block1_amount + block2_amount + block3_amount + block4_amount + block5_amount + block6_amount + block7_amount > noise then
+		go(x,y,z,block7,layer7)
+	elseif block1_amount + block2_amount + block3_amount + block4_amount + block5_amount + block6_amount + block7_amount + block8_amount > noise then
+		go(x,y,z,block8,layer8)
+	elseif block1_amount + block2_amount + block3_amount + block4_amount + block5_amount + block6_amount + block7_amount + block8_amount + block9_amount > noise then
+		go(x,y,z,block9,layer9)
+	else
+		return nil
+	end
+end
+
