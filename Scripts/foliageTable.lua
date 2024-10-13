@@ -121,7 +121,6 @@ local foliageTable = {
     blocks.conquest.nether_sprouts,
 
     -- Minecraft blocks
-    blocks.sweet_berries,
     blocks.lily_pad,
     blocks.glow_lichen,
     blocks.vine,
@@ -131,7 +130,6 @@ local foliageTable = {
     blocks.kelp,
     blocks.weeping_vines,
     blocks.twisting_vines,
-    blocks.glow_berries,
 
     -- Flowers
     -- Conquest blocks
@@ -169,7 +167,7 @@ local foliageTable = {
     blocks.conquest.pink_tulip,
     blocks.conquest.pasque_flower,
     blocks.conquest.meadow_saffron,
-	blocks.conquest.niphredil,
+    blocks.conquest.niphredil,
     blocks.conquest.simbelmyne,
     blocks.conquest.elanor,
 
@@ -205,9 +203,6 @@ local foliageTable = {
 
     -- Minecraft blocks
     blocks.sugar_cane,
-    blocks.cocoa_beans,
-    blocks.melon_seeds,
-    blocks.pumpkin_seeds,
 
     -- Leaves
     -- Conquest blocks
