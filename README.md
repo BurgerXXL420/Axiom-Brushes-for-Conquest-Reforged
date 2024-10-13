@@ -14,4 +14,5 @@ This brush is similar to the Conquest Plants Brush but is designed specifically 
 This brush allows you to paint layered terrain similar to painting normal terrain using the Noise Painter.
 
 ## Installation
-To use the brush, copy the contents of the `.lua` files directly into the Lua Script Brush Console within the Axiom Mod. Alternatively, you can place the `.nbt` files in the `script_brush` folder located at: `...\config\axiom\tool_presets\script_brush` (where `...` is your Minecraft instance folder) and restart Minecraft.
+To use the brush, copy the contents of the `.lua` files directly into the Lua Script Brush Console within the Axiom Mod. To save different default presets for a brush, you have to directly change the default values in the code. Further explanations on how this is done are found in the `.lua` files.
+
