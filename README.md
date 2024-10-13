@@ -11,7 +11,7 @@ I've also included a comprehensive list of foliage blocks (`foliageTable.lua`) t
 This brush is similar to the Conquest Plants Brush but is designed specifically for placing crops, allowing you to set a minimum and maximum age. Plants of different ages will be placed according to a noise pattern (with optional randomness), just like in the Conquest Plants Brush. An eraser and replace mode is also featured.
 
 ### Conquest Layers Brush
-This brush allows you to paint layered terrain similar to painting normal terrain using the Noise Painter.
+This brush allows you to paint layered terrain similar to painting normal terrain using the Noise Painter. (Using the Noise Painter directly with layers has the disadvantage of ignoring `layers=8` blocks. This brush will simply replace them with the full blocks, at the cost of having to manually set the full blocks in the UI in addition to the layers.)
 
 ## Installation
 To use the brush, copy the contents of the `.lua` files directly into the Lua Script Brush Console within the Axiom Mod. To save different default presets for a brush, you have to directly change the default values in the code. Further explanations on how this is done are found in the `.lua` files.
