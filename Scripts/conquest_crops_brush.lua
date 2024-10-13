@@ -21,6 +21,8 @@ local ignoreBlocksTable = {
     blocks.water
 }
 
+-- NOTE: If the Crop Amount is less than one, the remaining amount will be left unaltered by the brush.
+
 ----------------- CUSTOM FUNCTIONS -----------------
 
 -- Function to check if a value is contained in a table
